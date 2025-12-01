@@ -62,32 +62,18 @@
                 @foreach($offeredServices as $offered)
                     <tr>
                         <td>{{ $offered->service->service_name }}</td>
+                        <td>${{ number_format($offered->cost, 2) }}</td>
+                        <td>{{ $offered->notes ?? '-' }}</td>
                         <td>
-                            <form action="{{ route('shop-owner.services.update', $offered->id) }}" method="POST" style="display: inline;">
-                                @csrf
-                                @method('PUT')
-                                <input type="number" name="cost" value="{{ $offered->cost }}"
-                                       step="0.01" min="0" style="width: 100px;" required>
-                                <button type="submit" class="btn btn-primary" style="padding: 0.5rem;">Update</button>
-                            </form>
-                        </td>
-                        <td>
-                            <form action="{{ route('shop-owner.services.update', $offered->id) }}" method="POST" style="display: inline;">
-                                @csrf
-                                @method('PUT')
-                                <input type="hidden" name="cost" value="{{ $offered->cost }}">
-                                <input type="text" name="notes" value="{{ $offered->notes }}"
-                                       style="width: 200px;">
-                                <button type="submit" class="btn btn-primary" style="padding: 0.5rem;">Update</button>
-                            </form>
-                        </td>
-                        <td>
-                            <form action="{{ route('shop-owner.services.destroy', $offered->id) }}" method="POST" style="display: inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger"
-                                        onclick="return confirm('Remove this service?')">Remove</button>
-                            </form>
+                            <div style="display: flex; gap: 0.5rem; align-items: center;">
+                                <a href="{{ route('shop-owner.services.edit', $offered->id) }}" class="btn btn-danger">Edit</a>
+                                <form action="{{ route('shop-owner.services.destroy', $offered->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger"
+                                            onclick="return confirm('Remove this service?')">Remove</button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                 @endforeach

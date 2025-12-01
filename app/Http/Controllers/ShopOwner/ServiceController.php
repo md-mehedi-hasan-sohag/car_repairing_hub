@@ -51,6 +51,14 @@ class ServiceController extends Controller
         return redirect()->route('shop-owner.services.index')->with('success', 'Service added successfully!');
     }
 
+    public function edit($id)
+    {
+        $shop = auth()->user()->shop;
+        $offeredService = OfferedService::where('shop_id', $shop->id)->findOrFail($id);
+
+        return view('shop-owner.services.edit', compact('offeredService'));
+    }
+
     public function update(Request $request, $id)
     {
         $shop = auth()->user()->shop;

@@ -279,6 +279,11 @@ textarea.form-control {
     font-size: 1rem;
     text-decoration: none;
     transition: background 0.3s;
+    text-align: center;
+    line-height: 1.5;
+    font-family: inherit;
+    font-weight: normal;
+    vertical-align: middle;
 }
 
 .btn-primary {
