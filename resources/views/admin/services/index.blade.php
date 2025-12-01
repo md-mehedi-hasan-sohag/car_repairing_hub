@@ -26,6 +26,14 @@
                     <span class="error">{{ $message }}</span>
                 @enderror
             </div>
+            <div class="form-group">
+                <label for="price">Price (Optional)</label>
+                <input type="number" id="price" name="price" class="form-control"
+                       value="{{ old('price') }}" step="0.01" min="0">
+                @error('price')
+                    <span class="error">{{ $message }}</span>
+                @enderror
+            </div>
         </div>
         <div class="form-group">
             <label for="description">Description (Optional)</label>
@@ -46,6 +54,7 @@
                 <th>ID</th>
                 <th>Service Name</th>
                 <th>Category</th>
+                <th>Price</th>
                 <th>Description</th>
                 <th>Created</th>
                 <th>Actions</th>
@@ -55,42 +64,26 @@
             @forelse($services as $service)
                 <tr>
                     <td>{{ $service->id }}</td>
-                    <td>
-                        <form action="{{ route('admin.services.update', $service->id) }}" method="POST" style="display: inline;">
-                            @csrf
-                            @method('PUT')
-                            <input type="text" name="service_name" value="{{ $service->service_name }}"
-                                   style="width: 200px;" required>
-                            <input type="hidden" name="category" value="{{ $service->category }}">
-                            <input type="hidden" name="description" value="{{ $service->description }}">
-                            <button type="submit" class="btn btn-primary" style="padding: 0.5rem;">Update</button>
-                        </form>
-                    </td>
-                    <td>
-                        <form action="{{ route('admin.services.update', $service->id) }}" method="POST" style="display: inline;">
-                            @csrf
-                            @method('PUT')
-                            <input type="hidden" name="service_name" value="{{ $service->service_name }}">
-                            <input type="text" name="category" value="{{ $service->category }}"
-                                   style="width: 150px;">
-                            <input type="hidden" name="description" value="{{ $service->description }}">
-                            <button type="submit" class="btn btn-primary" style="padding: 0.5rem;">Update</button>
-                        </form>
-                    </td>
+                    <td>{{ $service->service_name }}</td>
+                    <td>{{ $service->category ?? '-' }}</td>
+                    <td>{{ $service->price ? '$' . number_format($service->price, 2) : '-' }}</td>
                     <td>{{ Str::limit($service->description, 50) ?? '-' }}</td>
                     <td>{{ $service->created_at->format('M d, Y') }}</td>
                     <td>
-                        <form action="{{ route('admin.services.destroy', $service->id) }}" method="POST" style="display: inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger"
-                                    onclick="return confirm('Are you sure you want to delete this service?')">Delete</button>
-                        </form>
+                        <div style="display: flex; gap: 0.5rem; align-items: center;">
+                            <a href="{{ route('admin.services.edit', $service->id) }}" class="btn btn-primary">Edit</a>
+                            <form action="{{ route('admin.services.destroy', $service->id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger"
+                                        onclick="return confirm('Are you sure you want to delete this service?')">Delete</button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="6" style="text-align: center;">No services found.</td>
+                    <td colspan="7" style="text-align: center;">No services found.</td>
                 </tr>
             @endforelse
         </tbody>

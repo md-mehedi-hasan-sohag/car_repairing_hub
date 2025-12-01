@@ -10,6 +10,7 @@ class Service extends Model
         'service_name',
         'description',
         'category',
+        'price',
     ];
 
     public function offeredServices()

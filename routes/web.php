@@ -97,6 +97,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
     Route::get('/services', [AdminServiceController::class, 'index'])->name('services.index');
     Route::post('/services', [AdminServiceController::class, 'store'])->name('services.store');
+    Route::get('/services/{id}/edit', [AdminServiceController::class, 'edit'])->name('services.edit');
     Route::put('/services/{id}', [AdminServiceController::class, 'update'])->name('services.update');
     Route::delete('/services/{id}', [AdminServiceController::class, 'destroy'])->name('services.destroy');
 });

@@ -15,7 +15,9 @@
                 <select id="service_id" name="service_id" class="form-control" required>
                     <option value="">Select a service</option>
                     @foreach($services as $service)
-                        <option value="{{ $service->id }}">{{ $service->service_name }}</option>
+                        <option value="{{ $service->id }}">
+                            {{ $service->service_name }}{{ $service->price ? ' - Base Price: $' . number_format($service->price, 2) : '' }}
+                        </option>
                     @endforeach
                 </select>
                 @error('service_id')
